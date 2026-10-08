@@ -119,6 +119,28 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(5, 195, 222, 0.15);
         }
+        .zoomable {
+            cursor: zoom-in;
+        }
+        #photo-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.85);
+            cursor: zoom-out;
+        }
+        #photo-lightbox.hidden {
+            display: none;
+        }
+        #photo-lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 1rem;
+            object-fit: contain;
+        }
     </style>
 <link href="magic-bento.css" rel="stylesheet"/>
 </head>
@@ -150,7 +172,7 @@
 </div>
 <div class="text-center mb-8">
 <div class="relative inline-block mb-4">
-<img id="profile-image" alt="Member profile" class="size-24 rounded-full border-2 border-accent-magenta p-1 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY"/>
+<img id="profile-image" alt="Member profile" class="zoomable size-24 rounded-full border-2 border-accent-magenta p-1 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY"/>
 <div class="absolute -bottom-1 -right-1 size-6 bg-accent-magenta rounded-full border-4 border-background-dark flex items-center justify-center">
 <span class="material-symbols-outlined text-[10px] text-white">bolt</span>
 </div>
@@ -192,7 +214,7 @@
 <div class="p-4 bg-white/5 rounded-xl border border-white/10">
 <h4 class="text-[10px] font-black text-white/40 uppercase tracking-widest mb-3">Department Lead</h4>
 <div class="flex items-center gap-3">
-<img id="dept-lead-image" alt="Department lead" class="dept-lead-img rounded-full border border-white/10 object-cover" src=""/>
+<img id="dept-lead-image" alt="Department lead" class="zoomable dept-lead-img rounded-full border border-white/10 object-cover" src=""/>
 <div>
 <p id="dept-lead-name" class="text-sm font-bold">Lead Name</p>
 <p id="dept-lead-role" class="text-[10px] uppercase tracking-widest text-white/50">Lead Role</p>
@@ -251,6 +273,10 @@
 </div>
 <div class="fixed bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
 
+<div id="photo-lightbox" class="hidden">
+<img id="photo-lightbox-image" alt="" src=""/>
+</div>
+
 <script>
 const fallbackDepartments = [
     {
@@ -263,31 +289,13 @@ const fallbackDepartments = [
         borderClass: "border-primary",
         description: "The Operations department is the backbone of our organization, building the digital backbone of our community, from our platform to hackathon tools and internal automation, while ensuring our processes run smoothly and positioning START Milan for long-term success financially, legally, and operationally.",
         lead: {
-            name: "Andrea",
+            name: "Stan Szymański",
             role: "Head of Operations",
-            img: "photos_starties/andrea.jpg",
-            links: {
-                linkedin: "https://www.linkedin.com/in/andrea-veneroni-45b6622b3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-                website: "https://andreaveneroni.netlify.app/",
-            },
+            img: "photos_starties/stanislaw-szymanski.jpeg",
+            links: { linkedin: "https://www.linkedin.com/in/stanislaw-szymanski-63a426261/", website: "" },
         },
         pos: { x: 50, y: 80 },
-        people: [
-            {
-                img: "photos_starties/andrea.jpg",
-                size: 28,
-                name: "Andrea",
-                role: "Operations",
-                department: "Operations",
-                active: true,
-                links: {
-                    website: "",
-                    linkedin: "",
-                },
-            },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAS5xxW1YKWQ5yN_XzeFtm0z8xqVO8wRH435BN3Vv_GVQZgehh2Agh5U3GyfsYtQnU-ScTHe-kI4EvNBcUG7HbyVXpXgFAlen47eM0I_CbcPZlFgvnodsAzTGT0LeCij0GI6WJSjLXu9aH7OXTKHtN1A2M3MwO4vrXlGsQcLfTmt8dlkZdZLHruhBGAg9DHi8LkzZN3fjfhE_FDKWog88kS-isPJY7uYtLYwpkNjqzq1rrVKsdkkUCp0ABoM2lkPmyedtPkYjTtC1w", size: 24 },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCSQ6vmJBBNbA6tFFukSQvrdR3NV4Wg6PSyLFqNcoPUSj-1StpH_huQNr0btyQMpJLKfkIZKYNm5HnNiu2fW9oPyFqodBX0XPn3B_i17FA1O2mc3kqCqw1UeVPbVCSuKtyJ8LxR-a4l9iE7BqR6CnGtRzZ0EuluqaEylDjwgBqOI9TH6m1_o30Ep-ekbcwNi5PBm-nG-j0rFKNxkCE0-pLXUFQRuQid2DOv3cMesdZ0ugOZP44dwyhDalfg3hMF4ytMNDHURZCXJrs", size: 26 },
-        ],
+        people: [],
     },
     {
         id: "growth",
@@ -299,17 +307,13 @@ const fallbackDepartments = [
         borderClass: "border-accent-magenta",
         description: "Growth is crafting the narrative of Milan's startup scene through design and storytelling, while finding creative and fun ways to engage our ecosystem, communicate START Milan's values, vision, and happenings, and build strong connections with students, industry partners, universities, and other initiatives.",
         lead: {
-            name: "Lead Growth",
+            name: "Milda Jonikaitė",
             role: "Head of Growth",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY",
-            links: { linkedin: "", website: "" },
+            img: "photos_starties/milda-jonikaite.jpeg",
+            links: { linkedin: "https://www.linkedin.com/in/milda-jonikaitė/?skipRedirect=true", website: "" },
         },
         pos: { x: 78, y: 22 },
-        people: [
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY", size: 30 },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsK_rB-GQokkHidP7mzzmytpPVJOfBc17oRIjvxGbgpI-TZr0sz9q0JOureP3LnvLrfmpMGKeswUKR_4ocZxBbO7GS0kc4-Jhe9qlzN-a0lf7GRcsQh-l0YqjjZ4lB5O30RkiX4UXo9NBNX0zPM7CXuuew93M5CVPXNZ-5ybsrZg2AVWAfnuVQOIT48WUBAUfZr3hxRoUEU2uCfWd-kHC6QkL9p72oM-KGy3UI5HeUU5NdL7eFNumtltiPAk1QRVwR-n1qpMLvAeE", size: 26 },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCwUxo-_K-go6lJjtwoDQWa6DDBGkPQj_uHi5Sbktlr7TOwxh8xuXR-cAaDTIJVK83PtW8X8SKtLTOFdg0OL9mgq_sEro5ymkc6r0ELc12rmeCT0CBmt_gY5FILO7RYbhxZBydY_S4cEN2IoiNuw3PUU1mhkE6JmCMqgZ17irV9y6ZUA8P0X2SzJ05daPxDH8Gfodb0RNs5g9tI22uaXoLH5w-gDXiLc02AUphqTeatKQkfyVR8e01xvLqcLaFb0Fn7Ji3hyDag2Dw", size: 22 },
-        ],
+        people: [],
     },
     {
         id: "events",
@@ -321,16 +325,13 @@ const fallbackDepartments = [
         borderClass: "border-primary",
         description: "Our events are the key to a strong community and an active network. By organizing diverse events we tailor to the interests of our members, thus provide an opportunity to gain new knowledge, skills and experiences that promote growth and innovation.",
         lead: {
-            name: "Lead Events",
+            name: "Lorenzo Gober",
             role: "Head of Events",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZKJC40r2xycbNQHaQaQxEjM4L9KoZDOOiq0pzOIuvjeFEMXYqNlSgHR5PI4o28otfu_RhaFrsvT0o2lNzVcfaB1hrp7l1aDwYtG-7Ui8ok2trIm9DjdUox4KkyWrFo5kPudY3yoWyL3lsHPpgOXiX7f6WvPGkHHFs7z7sjA0cDYl5Bx9cnIPn0HDsllibcehnOlDP5YeV2Ug0YQ3tDAM52tsGNWLRO-gYq5_IbEAJuiCHxN1BwHF5eR-tbJ8-SSdf_SdWwc7OQ",
-            links: { linkedin: "", website: "" },
+            img: "photos_starties/lorenzo_gober.jpeg",
+            links: { linkedin: "https://www.linkedin.com/in/lorenzogober/", website: "" },
         },
         pos: { x: 30, y: 52 },
-        people: [
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZKJC40r2xycbNQHaQaQxEjM4L9KoZDOOiq0pzOIuvjeFEMXYqNlSgHR5PI4o28otfu_RhaFrsvT0o2lNzVcfaB1hrp7l1aDwYtG-7Ui8ok2trIm9DjdUox4KkyWrFo5kPudY3yoWyL3lsHPpgOXiX7f6WvPGkHHFs7z7sjA0cDYl5Bx9cnIPn0HDsllibcehnOlDP5YeV2Ug0YQ3tDAM52tsGNWLRO-gYq5_IbEAJuiCHxN1BwHF5eR-tbJ8-SSdf_SdWwc7OQ", size: 26 },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIdYvOCvfuvBeeBzUIiOa1-vEdA1eoqXUvQ-5dpWh0wPVSh2KwC0qW1_o1IMvdqxIWuBa8mxEV-HeeZUGCcoMK6eZ5fEBngy-2CqC9bISBnhNFk16lZYm_0pmaGKmQ5ebNk8nyRmZQDwjtpHX96nbGLhosjYfUMVG8gf9XpoFrLurYTve0g5GlWhruFyxKVzBB4uZYQl1zY1N-NwG53DkTMVEPvOIKsdRVbOJv5KQ0IJAtu_MdgIWFE3po0gWk3s1og4amncQc7N0", size: 22 },
-        ],
+        people: [],
     },
     {
         id: "partnerships",
@@ -342,16 +343,13 @@ const fallbackDepartments = [
         borderClass: "border-accent-gold",
         description: "Partnerships develops strategic relationships and collaborations.",
         lead: {
-            name: "Lead Partnerships",
+            name: "Alessandro De Simone",
             role: "Head of Partnerships",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKnJpNS4VjibdDnC6EqL4bHNFEmlpey5WX05mnQJcXsPhop40b2fLuWG3iJoRctiORyir0y-VSzNlP6R3YMqvNM7pr5epoN3COIufuEe0q9XbmV_JjGruX8azLWxCsaKjv8pdl9J5-1feECJNZcGvE_5gYsYhD8fN22UVesHUkX5Uw2UUfezP2Ojwx8z3eem8EblC1SP435tFmnxcXVp0xGKu6jGicCcq4SPQcxv_EOfT0N_uKhtv0pCp9-E1QzCSL7RX2b-OArUc",
-            links: { linkedin: "", website: "" },
+            img: "photos_starties/alessandro-de-simone.jpeg",
+            links: { linkedin: "https://www.linkedin.com/in/alessandrodesimone-/?skipRedirect=true", website: "" },
         },
         pos: { x: 70, y: 52 },
-        people: [
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKnJpNS4VjibdDnC6EqL4bHNFEmlpey5WX05mnQJcXsPhop40b2fLuWG3iJoRctiORyir0y-VSzNlP6R3YMqvNM7pr5epoN3COIufuEe0q9XbmV_JjGruX8azLWxCsaKjv8pdl9J5-1feECJNZcGvE_5gYsYhD8fN22UVesHUkX5Uw2UUfezP2Ojwx8z3eem8EblC1SP435tFmnxcXVp0xGKu6jGicCcq4SPQcxv_EOfT0N_uKhtv0pCp9-E1QzCSL7RX2b-OArUc", size: 28 },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAcBPL-V7v72ONlZJ0RncNgaeVnLXvepkMHwzRYaF1W1c7lbwVOtg_KApn19CB6xvOv1acwd_u7uQy9EKAKsiN0gCJKaf4LU38QIaoR8aQfhwsAQjKo2lQbOSZ5V-Ec8Re8NooqijymveM9lIWUvUkBUvhgXYn5ass0_eP81ibozI0KMGKXd-uv2yQVRq9vi9v7G_RjPV4lBJwdbC0EcD-iMcYVllLgAWPbGo2LQxNkbQ730B90JivH2FQZEhk37hXCM759y9dYymA", size: 24 },
-        ],
+        people: [],
     },
     {
         id: "people",
@@ -363,16 +361,13 @@ const fallbackDepartments = [
         borderClass: "border-white/60",
         description: "We find the raw diamonds in the Milan's startup ecosystem, work hard with you to take the next step in your entrepreneurial journey, and most importantly, we build a community that feels like a family!",
         lead: {
-            name: "Lead People",
+            name: "Alina König",
             role: "Head of People",
-            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCFte538UudMmRqCjSnsLasNzgAU3urCMIO0qRY0SJJrhXlbUJRWVGAwFqt89Yjvj4882PIQg7BNgPiMNTxIRFpEhLNfA82nnjpJvJPQ5N3cezzuC5fLuq5Lw3kAkO5gAOAGLgB1jTKFhsH9Npn6dDYYgFfwgvGPvoMG8mX8rKs-FVDiy4fVQGCnnKT46OahKFYn8w_Xa_eWhDed3WoqcmaR6PGdA0-Y0wTTm48PzL-_9FW9tf_PBbovUufGANpql9r3y6CxH6osmg",
-            links: { linkedin: "", website: "" },
+            img: "photos_starties/alina-konig.png",
+            links: { linkedin: "https://www.linkedin.com/in/alina-koenig/?skipRedirect=true", website: "" },
         },
         pos: { x: 22, y: 22 },
-        people: [
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCFte538UudMmRqCjSnsLasNzgAU3urCMIO0qRY0SJJrhXlbUJRWVGAwFqt89Yjvj4882PIQg7BNgPiMNTxIRFpEhLNfA82nnjpJvJPQ5N3cezzuC5fLuq5Lw3kAkO5gAOAGLgB1jTKFhsH9Npn6dDYYgFfwgvGPvoMG8mX8rKs-FVDiy4fVQGCnnKT46OahKFYn8w_Xa_eWhDed3WoqcmaR6PGdA0-Y0wTTm48PzL-_9FW9tf_PBbovUufGANpql9r3y6CxH6osmg", size: 24 },
-            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsK_rB-GQokkHidP7mzzmytpPVJOfBc17oRIjvxGbgpI-TZr0sz9q0JOureP3LnvLrfmpMGKeswUKR_4ocZxBbO7GS0kc4-Jhe9qlzN-a0lf7GRcsQh-l0YqjjZ4lB5O30RkiX4UXo9NBNX0zPM7CXuuew93M5CVPXNZ-5ybsrZg2AVWAfnuVQOIT48WUBAUfZr3hxRoUEU2uCfWd-kHC6QkL9p72oM-KGy3UI5HeUU5NdL7eFNumtltiPAk1QRVwR-n1qpMLvAeE", size: 22 },
-        ],
+        people: [],
     },
 ];
 
@@ -408,12 +403,55 @@ const focusOn = (xPct, yPct, scale) => {
     const offsetY = rect.height / 2 - targetY;
     scene.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${scale})`;
 };
+// Zoom sul dipartimento: scala calcolata in modo che tutte le persone riempiano l'area visibile
+const DEPT_FOCUS_PADDING = 32;
+const DEPT_FOCUS_MAX_SCALE = 4;
+const focusOnDepartment = (dept) => {
+    const width = scene.offsetWidth;
+    const height = scene.offsetHeight;
+    if (!dept || !width || !height) return;
+
+    // Estensione del dipartimento in px (non scalati): nodo centrale + cerchio delle persone
+    let halfW = 60;
+    let halfH = 60;
+    nodesLayer.querySelectorAll(".person-node").forEach((node) => {
+        if (node.dataset.deptId !== dept.id) return;
+        const half = (Number(node.dataset.size) || 36) / 2;
+        halfW = Math.max(halfW, (Math.abs(Number(node.dataset.x) - dept.pos.x) / 100) * width + half);
+        halfH = Math.max(halfH, (Math.abs(Number(node.dataset.y) - dept.pos.y) / 100) * height + half);
+    });
+
+    // Area libera: sotto l'header e, se c'è spazio, a sinistra del pannello del dipartimento
+    const sceneRect = scene.parentElement.getBoundingClientRect();
+    const headerBottom = document.querySelector("header")?.getBoundingClientRect().bottom || 0;
+    const panelSpace = window.innerWidth >= 900 ? departmentPanel.offsetWidth + 32 : 0;
+    const left = 0;
+    const right = width - panelSpace;
+    const top = Math.max(0, headerBottom - sceneRect.top);
+    const bottom = height;
+
+    const availW = Math.max(right - left - DEPT_FOCUS_PADDING * 2, 100);
+    const availH = Math.max(bottom - top - DEPT_FOCUS_PADDING * 2, 100);
+    const scale = clamp(Math.min(availW / (halfW * 2), availH / (halfH * 2)), 0.85, DEPT_FOCUS_MAX_SCALE);
+
+    // transform-origin al centro: porta il centro del dipartimento al centro dell'area libera
+    const deptX = (dept.pos.x / 100) * width;
+    const deptY = (dept.pos.y / 100) * height;
+    const offsetX = (left + right) / 2 - width / 2 - scale * (deptX - width / 2);
+    const offsetY = (top + bottom) / 2 - height / 2 - scale * (deptY - height / 2);
+    scene.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${scale})`;
+};
 const resetFocus = () => {
     scene.style.transform = "translate3d(0, 0, 0) scale(0.85)";
 };
 
 const toViewBox = (pct) => pct * 10;
+const PLACEHOLDER_IMG = "photos_starties/placeholder.svg";
 const getThumbSources = (src) => {
+    // Membri senza foto (img vuoto in people.json) usano il placeholder
+    if (!src) {
+        return { src: PLACEHOLDER_IMG, srcSet: "", fallback: PLACEHOLDER_IMG };
+    }
     if (!src.startsWith("photos_starties/") || src.includes("/thumbs/")) {
         return { src, srcSet: "", fallback: src };
     }
@@ -469,7 +507,7 @@ const resolveRawDepartments = (data) => {
         return data;
     }
     if (Array.isArray(data?.people)) {
-        const seeded = fallbackDepartments.map((dept) => ({ ...dept, people: [] }));
+        const seeded = getSafeFallbackDepartments();
         const peopleDept = seeded.find((dept) => normalizeDepartmentKey(dept.id) === "people");
         if (peopleDept) {
             peopleDept.people = [...data.people];
@@ -618,12 +656,15 @@ const renderGraph = () => {
             personNode.style.transform = `translate(-50%, -50%) translateZ(0) scale(${scaleRatio})`;
             personNode.dataset.x = px;
             personNode.dataset.y = py;
+            personNode.dataset.deptId = dept.id;
+            personNode.dataset.size = personSize;
             personNode.dataset.name = personName;
             personNode.dataset.role = personRole;
             personNode.dataset.department = personDepartment;
             personNode.dataset.active = String(personActive);
             personNode.dataset.website = personLinks.website || "";
             personNode.dataset.linkedin = personLinks.linkedin || "";
+            personNode.dataset.full = thumbs.fallback;
             personNode.style.borderColor = dept.color;
             personNode.style.boxShadow = `0 0 0 2px ${dept.color}`;
             nodesLayer.appendChild(personNode);
@@ -684,7 +725,7 @@ const loadDepartments = async () => {
         setTimeout(() => {
             const dept = departments.find(d => d.id === deptParam);
             if (dept) {
-                focusOn(dept.pos.x, dept.pos.y, 1.2);
+                focusOnDepartment(dept);
                 currentFocusX = dept.pos.x;
                 currentFocusY = dept.pos.y;
             }
@@ -748,8 +789,8 @@ const renderList = () => {
             return `
                 <div class="member-card glass-panel rounded-xl p-4 border border-white/5 flex items-center gap-4">
                     <img src="${thumbs.src}" ${thumbs.srcSet ? `srcset="${thumbs.srcSet}" sizes="64px"` : ''} 
-                         alt="${personName}" 
-                         class="dept-lead-img rounded-full border ${dept.borderClass}" 
+                         alt="${personName}" data-full="${thumbs.fallback}"
+                         class="zoomable dept-lead-img rounded-full border ${dept.borderClass}" 
                          style="width: 128px !important; height: 128px !important; transform: scale(0.5) translateZ(0); margin: -32px;" />
                     <div class="flex-1">
                         <h4 class="font-bold">${personName}</h4>
@@ -780,22 +821,34 @@ const renderList = () => {
     });
 };
 
+// Click su una foto (profilo, lead, lista) per ingrandirla
+const photoLightbox = document.getElementById("photo-lightbox");
+const photoLightboxImage = document.getElementById("photo-lightbox-image");
+const closeLightbox = () => photoLightbox.classList.add("hidden");
+
+document.addEventListener("click", (event) => {
+    if (event.target.closest("#photo-lightbox")) {
+        event.stopPropagation();
+        closeLightbox();
+        return;
+    }
+    const photo = event.target.closest(".zoomable");
+    if (!photo) return;
+    event.stopPropagation();
+    photoLightboxImage.src = photo.dataset.full || photo.currentSrc || photo.src;
+    photoLightboxImage.alt = photo.alt;
+    photoLightbox.classList.remove("hidden");
+}, true);
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeLightbox();
+});
+
 viewGraphBtn.addEventListener('click', () => switchView('graph'));
 viewListBtn.addEventListener('click', () => switchView('list'));
 
 loadDepartments();
 window.addEventListener("resize", renderGraph);
-
-nodesLayer.addEventListener("mouseover", (event) => {
-    const target = event.target.closest(".person-node, .dept-node");
-    if (!target) return;
-    if (target.classList.contains("hub-node")) {
-        return;
-    }
-});
-
-
-nodesLayer.addEventListener("mouseout", () => {});
 
 document.addEventListener("click", (event) => {
     if (!event.target.closest(".person-node, .dept-node")) {
@@ -834,6 +887,7 @@ nodesLayer.addEventListener("click", (event) => {
         const linkedin = personTarget.dataset.linkedin || "";
 
         profileImage.src = personTarget.src || profileImage.src;
+        profileImage.dataset.full = personTarget.dataset.full || "";
         profileName.textContent = name;
         profileRole.textContent = role;
         profileDepartment.textContent = department;
@@ -842,13 +896,9 @@ nodesLayer.addEventListener("click", (event) => {
         profileActiveIcon.style.color = isActive ? "#05c3de" : "#83af9b";
         profileActiveText.style.color = isActive ? "#05c3de" : "#83af9b";
 
-        if (website) {
-            profileWebsite.href = website;
-            profileWebsite.classList.remove("opacity-40", "pointer-events-none");
-        } else {
-            profileWebsite.href = "#";
-            profileWebsite.classList.add("opacity-40", "pointer-events-none");
-        }
+        // Senza website il pulsante non viene mostrato
+        profileWebsite.href = website || "#";
+        profileWebsite.style.display = website ? "" : "none";
 
         if (linkedin) {
             profileLinkedin.href = linkedin;
@@ -873,7 +923,7 @@ nodesLayer.addEventListener("click", (event) => {
         // Zoom solo se è un nodo diverso o con coordinate diverse
         if (currentFocusedNode !== deptTarget || currentFocusX !== x || currentFocusY !== y) {
             if (!Number.isNaN(x) && !Number.isNaN(y)) {
-                focusOn(x, y, 1.2);
+                focusOnDepartment(departments.find((item) => item.id === deptTarget.dataset.deptId));
                 currentFocusedNode = deptTarget;
                 currentFocusX = x;
                 currentFocusY = y;
@@ -895,6 +945,7 @@ nodesLayer.addEventListener("click", (event) => {
         if (leadImg) {
             const leadThumbs = getThumbSources(leadImg);
             deptLeadImage.src = leadThumbs.src;
+            deptLeadImage.dataset.full = leadThumbs.fallback;
             if (leadThumbs.srcSet) {
                 deptLeadImage.srcset = leadThumbs.srcSet;
                 deptLeadImage.sizes = "48px";
@@ -907,13 +958,9 @@ nodesLayer.addEventListener("click", (event) => {
         deptLeadName.textContent = lead.name || "Lead";
         deptLeadRole.textContent = lead.role || "";
 
-        if (leadLinks.website) {
-            deptLeadWebsite.href = leadLinks.website;
-            deptLeadWebsite.classList.remove("opacity-40", "pointer-events-none");
-        } else {
-            deptLeadWebsite.href = "#";
-            deptLeadWebsite.classList.add("opacity-40", "pointer-events-none");
-        }
+        // Senza website il pulsante non viene mostrato
+        deptLeadWebsite.href = leadLinks.website || "#";
+        deptLeadWebsite.style.display = leadLinks.website ? "" : "none";
 
         if (leadLinks.linkedin) {
             deptLeadLinkedin.href = leadLinks.linkedin;
@@ -929,6 +976,6 @@ nodesLayer.addEventListener("click", (event) => {
 });
 </script>
 
-<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 <script src="scripts/magic-bento.js"></script>
 </body></html>
